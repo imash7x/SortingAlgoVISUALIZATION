@@ -24,10 +24,3 @@ which are demonstrated in the computer program. It might be used as
 a source for learning algorithms by students. Also, the program might be easily
 used as a demonstration by lecturers and tutors during classes. Besides, there is
 programmer documentation and user guide to the provided software.
-
-
-Readers of this text are expected to have some programming experience to
-know basic data structures such as arrays, lists, trees and understand recursive
-procedures. Also, knowledge of some simple algorithms and their implementa-
-tions could be helpful. In order to understand the topic better, knowledge of
-linear algebra and calculus is involved.
