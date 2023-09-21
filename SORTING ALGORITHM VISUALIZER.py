@@ -1,13 +1,16 @@
+import random
 from tkinter import *
 from tkinter import ttk
-import random
 from bubblesort import bubble_sort
 from mergesort import merge_sort
 from quicksort import quick_sort
-
+from selectionsort import selection_sort
+from insertionsort import insertion_sort
+from countingsort import counting_sort
+from binarysearch import binary_search
 
 root = Tk()
-root.title('Sorting Algorithm Visualisation')
+root.title('Sorting & Searching Algorithm Visualisation')
 root.maxsize(900, 600)
 root.config(bg='blue')
 
@@ -45,9 +48,12 @@ def Generate():
     maxVal = int(maxEntry.get())
     size = int(sizeEntry.get())
 
-    data = []
-    for _ in range(size):
-        data.append(random.randrange(minVal, maxVal+1))
+    if algMenu.get() == 'Binary Search':
+        data = sorted(random.sample(range(minVal, maxVal+1), size))
+    else:
+        data = []
+        for _ in range(size):
+            data.append(random.randrange(minVal, maxVal+1))
 
     drawData(data, ['red' for x in range(len(data))]) #['red', 'red' ,....]
 
@@ -63,6 +69,19 @@ def StartAlgorithm():
 
     elif algMenu.get() == 'Merge Sort':
         merge_sort(data, drawData, speedScale.get())
+
+    elif algMenu.get() == 'Selection Sort':
+        selection_sort(data, drawData, speedScale.get())
+
+    elif algMenu.get() == 'Insertion Sort':
+        insertion_sort(data, drawData, speedScale.get())
+
+    elif algMenu.get() == 'Counting Sort':
+        counting_sort(data, drawData, speedScale.get())
+
+    elif algMenu.get() == 'Binary Search':
+        search_value = int(searchValueEntry.get())
+        binary_search(data, search_value, drawData, speedScale.get())
     
     drawData(data, ['green' for x in range(len(data))])
 
@@ -77,13 +96,13 @@ canvas.grid(row=1, column=0, padx=10, pady=5)
 #User Interface Area
 #Row[0]
 Label(UI_frame, text="SELECT ALGORITHM : ", bg='pink').grid(row=0, column=0, padx=5, pady=5, sticky=W)
-algMenu = ttk.Combobox(UI_frame, textvariable=selected_alg, values=['Bubble Sort', 'Quick Sort', 'Merge Sort'])
+algMenu = ttk.Combobox(UI_frame, textvariable=selected_alg, values=['Bubble Sort', 'Quick Sort', 'Merge Sort',
+                                                                    'Selection Sort','Insertion Sort','Counting Sort','Binary Search'])
 algMenu.grid(row=0, column=1, padx=5, pady=5)
 algMenu.current(0)
 
 speedScale = Scale(UI_frame, from_=0.1, to=1.0, length=200, digits=2, resolution=0.1, orient=HORIZONTAL, label="SELECT SPEED (s)")
 speedScale.grid(row=0, column=2, padx=5, pady=5)
-Button(UI_frame, text="START", command=StartAlgorithm, bg='yellow').grid(row=0, column=3, padx=5, pady=5)
 
 #Row[1]
 sizeEntry = Scale(UI_frame, from_=3, to=35,length=200, resolution=1, orient=HORIZONTAL, label="NUMBER OF VALUES")
@@ -95,6 +114,12 @@ minEntry.grid(row=1, column=0, padx=5, pady=5)
 maxEntry = Scale(UI_frame, from_=10, to=100, resolution=1, orient=HORIZONTAL, label="MAX VALUE")
 maxEntry.grid(row=1, column=1, padx=5, pady=5)
 
-Button(UI_frame, text="GENERATE", command=Generate, bg='red').grid(row=1, column=3, padx=5, pady=5)
+searchValueLabel = Label(UI_frame, text="SEARCH VALUE:", bg='pink')
+searchValueLabel.grid(row=2, column=0, padx=5, pady=5)
+searchValueEntry = Entry(UI_frame)
+searchValueEntry.grid(row=2, column=1, padx=5, pady=5)
+
+Button(UI_frame, text="GENERATE", command=Generate, bg='red').grid(row=2, column=2, padx=5, pady=5, ipadx=20)
+Button(UI_frame, text="START", command=StartAlgorithm, bg='yellow').grid(row=2, column=3, padx=5, pady=5 )
 
 root.mainloop()
